@@ -9,27 +9,20 @@ pygame.init()
 
 # create the screen
 screen = pygame.display.set_mode((800, 600))
-#children
-childrenImg=pygame.image.load('chicken.png')
-childrenX=700
-childrenY=500
-
 
 # Background
-background = pygame.image.load('background (1).png')
-
-
+background = pygame.image.load('backg2.jfif')
 # Sound
-mixer.music.load('643565__el-boss__ukulele-quiet-background-melody.wav')
+mixer.music.load("background.wav")
 mixer.music.play(-1)
 
 # Caption and Icon
-pygame.display.set_caption("CHICK INVADERS")
-icon = pygame.image.load('chick (1).png')
+pygame.display.set_caption("Chick(The fighter)")
+icon = pygame.image.load('icons8-chick-58.png')
 pygame.display.set_icon(icon)
 
 # Player
-playerImg = pygame.image.load('man.png')
+playerImg = pygame.image.load('ch.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
@@ -43,7 +36,7 @@ enemyY_change = []
 num_of_enemies = 6
 
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('fox (1).png'))
+    enemyImg.append(pygame.image.load('cunning.png'))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -54,7 +47,7 @@ for i in range(num_of_enemies):
 # Ready - You can't see the bullet on the screen
 # Fire - The bullet is currently moving
 
-bulletImg = pygame.image.load('water-balloons.png')
+bulletImg = pygame.image.load('party-baloon (1).png')
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
@@ -89,10 +82,6 @@ def player(x, y):
 
 def enemy(x, y, i):
     screen.blit(enemyImg[i], (x, y))
-def children(x,y):
-    screen.blit(childrenImg,(childrenX,childrenY))
-
-
 
 
 def fire_bullet(x, y):
@@ -112,11 +101,11 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
 # Game Loop
 running = True
 while running:
-    # Background Image
-    screen.blit(background, (0, 0))
 
     # RGB = Red, Green, Blue
-    screen.fill((0, 150, 0))
+    screen.fill((0, 0, 0))
+    # Background Image
+    screen.blit(background, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -128,8 +117,8 @@ while running:
             if event.key == pygame.K_RIGHT:
                 playerX_change = 5
             if event.key == pygame.K_SPACE:
-                if bullet_state is "ready":
-                    bulletSound = mixer.Sound("421184__inspectorj__water-pouring-a (1).wav")
+                if bullet_state == "ready":
+                    bulletSound = mixer.Sound("laser.wav")
                     bulletSound.play()
                     # Get the current x cordinate of the spaceship
                     bulletX = playerX
@@ -160,10 +149,10 @@ while running:
 
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:
-            enemyX_change[i] = 4
+            enemyX_change[i] = 2
             enemyY[i] += enemyY_change[i]
         elif enemyX[i] >= 736:
-            enemyX_change[i] = -4
+            enemyX_change[i] = -2
             enemyY[i] += enemyY_change[i]
 
         # Collision
@@ -184,10 +173,10 @@ while running:
         bulletY = 480
         bullet_state = "ready"
 
-    if bullet_state is "fire":
+    if bullet_state == "fire":
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
-    children(childrenX,childrenY)
+
     player(playerX, playerY)
     show_score(textX, testY)
     pygame.display.update()
